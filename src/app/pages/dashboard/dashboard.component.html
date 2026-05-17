@@ -1,0 +1,109 @@
+<div class="container-fluid mt-4">
+  <div class="row">
+
+    <div class="col-md-5">
+      <div class="card shadow">
+        <div class="card-body">
+
+          <h3>Add / Edit Task</h3>
+
+          <div class="mb-3">
+  <label>Task Name</label>
+
+  <input
+    type="text"
+    class="form-control"
+    [(ngModel)]="task.taskName"
+    name="taskName"
+    required
+    #taskName="ngModel"
+    placeholder="Enter task name"
+  />
+
+  <div class="text-danger"
+       *ngIf="taskName.invalid && taskName.touched">
+    Task Name is required
+  </div>
+</div>
+
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea class="form-control"
+              rows="4"
+              [(ngModel)]="task.description">
+            </textarea>
+          </div>
+
+          <div class="form-check mb-3">
+            <input type="checkbox"
+              class="form-check-input"
+              [(ngModel)]="task.isCompleted">
+            <label class="form-check-label">Completed</label>
+          </div>
+
+<button
+  class="btn btn-success w-100"
+  (click)="saveTask()"
+  [disabled]="taskName.invalid"
+  [class.btn-secondary]="taskName.invalid">
+  Save Task
+</button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+
+      <h3>Task List</h3>
+      <input type="text"
+        class="form-control mb-3"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchText">
+
+      <button class="btn btn-primary btn-sm me-2" (click)="sort('taskName')">
+        Sort by Name
+      </button>
+
+      <button class="btn btn-primary btn-sm" (click)="sort('isCompleted')">
+        Sort by Status
+      </button>
+
+      <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+          <tr>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th width="180">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of filteredTasks">
+
+            <td>{{ item.taskName }}</td>
+            <td>{{ item.description }}</td>
+            <td>
+              {{ item.isCompleted ? 'Completed' : 'Pending' }}
+            </td>
+
+            <td>
+              <button class="btn btn-warning btn-sm me-2"
+                (click)="editTask(item)">
+                Edit
+              </button>
+
+              <button class="btn btn-danger btn-sm"
+                (click)="deleteTask(item.id)">
+                Delete
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
